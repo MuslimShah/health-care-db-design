@@ -1,8 +1,8 @@
-## Healthcare Database
+## Patient appointment Database
 
 ![Health Care Database](https://github.com/MuslimShah/health-care-db-design/blob/main/healthCareDb.png)
 
-This database, named "Healthcare DB," efficiently manages interactions between healthcare providers and patients, appointments, medical records, prescriptions, and billing information. Here's how it works:
+This database, named "patient-appointment-db," efficiently manages interactions between healthcare providers and patients, appointments, medical records, prescriptions, and billing information. Here's how it works:
 
 - **Doctors**: Store information about healthcare providers, including their names, specializations, qualifications, contact details, and work schedules.
 - **Doctor Addresses**: Maintain addresses where healthcare providers practice, indicating primary and practice addresses.
