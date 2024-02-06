@@ -16,4 +16,4 @@ This database, named "patient-appointment-db," efficiently manages interactions 
 - **Prescriptions**: Record medications prescribed by healthcare providers, including dates, dosages, frequencies, durations, instructions, and pharmacy details.
 - **Billing Invoices**: Manage billing information for patients, including invoice dates, due dates, total amounts, paid amounts, payment statuses, and notes.
 
-This Healthcare DB provides a comprehensive solution for managing healthcare provider-patient interactions, appointments, medical records, prescriptions, and billing information, ultimately enhancing healthcare services and patient care.
+This patient-appointment-db provides a comprehensive solution for managing healthcare provider-patient interactions, appointments, medical records, prescriptions, and billing information, ultimately enhancing healthcare services and patient care.
