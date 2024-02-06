@@ -1,0 +1,188 @@
+CREATE TABLE doctors(
+  doc_id INT NOT NULL,
+  first_name VARCHAR NOT NULL,
+  last_name VARCHAR NOT NULL,
+  specialization VARCHAR NOT NULL,
+  gender VARCHAR NOT NULL,
+  date_of_birth DATE NOT NULL,
+  qualification VARCHAR NOT NULL,
+  licence_number VARCHAR NOT NULL,
+  hospital_affiliation VARCHAR NOT NULL,
+  consltation_fee INT NOT NULL,
+  availability_status BOOLEAN NOT NULL,
+  PRIMARY KEY(doc_id)
+) COMMENT 'table for doctors and their attribute';
+
+CREATE TABLE doc_address(
+  address_id INT NOT NULL,
+  street VARCHAR,
+  city VARCHAR,
+  state VARCHAR NOT NULL,
+  zip_code VARCHAR NOT NULL,
+  country VARCHAR NOT NULL,
+  is_primary BOOLEAN NOT NULL,
+  is_practice_add BOOLEAN NOT NULL,
+  doc_id INT NOT NULL,
+  PRIMARY KEY(address_id)
+) COMMENT 'all the addresses where the doctors physically practice';
+
+CREATE TABLE doc_work_schedule(
+  schedule_id INT NOT NULL,
+  day_of_week VARCHAR NOT NULL,
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
+  is_available BOOLEAN NOT NULL,
+  doc_room_no INT NOT NULL,
+  doc_id INT NOT NULL,
+  PRIMARY KEY(schedule_id)
+) COMMENT 'work schedule of the doctor showing availablity on days of weeks';
+
+CREATE TABLE doc_contact(
+  contact_id INT NOT NULL,
+  phone_number VARCHAR NOT NULL,
+  email VARCHAR,
+  doc_id INT NOT NULL,
+  PRIMARY KEY(contact_id)
+) COMMENT 'table that stores doctor''s contact info';
+
+CREATE TABLE patients(
+  patient_id INT NOT NULL,
+  first_name VARCHAR NOT NULL,
+  last_name VARCHAR NOT NULL,
+  gender VARCHAR NOT NULL,
+  date_of_birth DATE NOT NULL,
+  blood_group VARCHAR NOT NULL,
+  allergies VARCHAR NOT NULL,
+  current_medications VARCHAR,
+  PRIMARY KEY(patient_id)
+) COMMENT 'info about patient';
+
+CREATE TABLE patients_contact(
+  contact_id INT NOT NULL,
+  email VARCHAR NOT NULL,
+  phone_number VARCHAR NOT NULL,
+  emergency_contact VARCHAR NOT NULL,
+  emergency_relation_contact VARCHAR NOT NULL,
+  patient_id INT NOT NULL,
+  PRIMARY KEY(contact_id)
+);
+
+CREATE TABLE appointment(
+  appointment_id INT NOT NULL,
+  app_date DATE NOT NULL,
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
+  `status` VARCHAR NOT NULL,
+  creation_date DATE NOT NULL,
+  cancellation_date DATE,
+  doc_id INT NOT NULL,
+  patient_id INT NOT NULL,
+  appt_reason VARCHAR NOT NULL,
+  PRIMARY KEY(appointment_id)
+) COMMENT 'info about patients appointments';
+
+CREATE TABLE re_scheduled_appointments(
+  re_appointment_id INT NOT NULL,
+  app_date DATE NOT NULL,
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
+  re_schedule_reason VARCHAR NOT NULL,
+  appointment_id INT NOT NULL,
+  creation_date DATE,
+  PRIMARY KEY(re_appointment_id)
+) COMMENT
+  'table for those appointments which are being scheduled due to a reason';
+
+CREATE TABLE medical_records(
+  record_id INT NOT NULL,
+  `date` DATE,
+  diagnosis VARCHAR,
+  treatment VARCHAR,
+  procedures VARCHAR,
+  test_results VARCHAR,
+  symptoms VARCHAR,
+  notes VARCHAR,
+  follow_up_date DATE,
+  doc_id INT NOT NULL,
+  patient_id INT NOT NULL,
+  PRIMARY KEY(record_id)
+) COMMENT 'table for medical records of the patient';
+
+CREATE TABLE perscription(
+  perscription_id INT NOT NULL,
+  `date` DATE,
+  medication VARCHAR,
+  dosage VARCHAR,
+  frequency VARCHAR,
+  duration VARCHAR,
+  instructions VARCHAR,
+  pharmacy VARCHAR,
+  doc_id INT NOT NULL,
+  patient_id INT NOT NULL,
+  PRIMARY KEY(perscription_id)
+) COMMENT 'table for medications perscribed by the doctor';
+
+CREATE TABLE billing_invoice(
+  invoice_id INT NOT NULL,
+  invoice_date DATE NOT NULL,
+  due_date DATE NOT NULL,
+  total_amount INT NOT NULL,
+  paid_amount INT NOT NULL,
+  payment_status VARCHAR NOT NULL,
+  notes VARCHAR NOT NULL,
+  doc_id INT NOT NULL,
+  patient_id INT NOT NULL,
+  PRIMARY KEY(invoice_id)
+) COMMENT 'billing info';
+
+ALTER TABLE doc_address
+  ADD CONSTRAINT doctors_doc_address
+    FOREIGN KEY (doc_id) REFERENCES doctors (doc_id);
+
+ALTER TABLE doc_work_schedule
+  ADD CONSTRAINT doctors_doc_work_schedule
+    FOREIGN KEY (doc_id) REFERENCES doctors (doc_id);
+
+ALTER TABLE doc_contact
+  ADD CONSTRAINT doctors_doc_contact
+    FOREIGN KEY (doc_id) REFERENCES doctors (doc_id);
+
+ALTER TABLE patients_contact
+  ADD CONSTRAINT patients_patients_contact
+    FOREIGN KEY (patient_id) REFERENCES patients (patient_id);
+
+ALTER TABLE appointment
+  ADD CONSTRAINT doctors_appointment
+    FOREIGN KEY (doc_id) REFERENCES doctors (doc_id);
+
+ALTER TABLE appointment
+  ADD CONSTRAINT patients_appointment
+    FOREIGN KEY (patient_id) REFERENCES patients (patient_id);
+
+ALTER TABLE re_scheduled_appointments
+  ADD CONSTRAINT appointment_re_scheduled_appointments
+    FOREIGN KEY (appointment_id) REFERENCES appointment (appointment_id);
+
+ALTER TABLE medical_records
+  ADD CONSTRAINT doctors_medical_records
+    FOREIGN KEY (doc_id) REFERENCES doctors (doc_id);
+
+ALTER TABLE medical_records
+  ADD CONSTRAINT patients_medical_records
+    FOREIGN KEY (patient_id) REFERENCES patients (patient_id);
+
+ALTER TABLE perscription
+  ADD CONSTRAINT doctors_perscription
+    FOREIGN KEY (doc_id) REFERENCES doctors (doc_id);
+
+ALTER TABLE perscription
+  ADD CONSTRAINT patients_perscription
+    FOREIGN KEY (patient_id) REFERENCES patients (patient_id);
+
+ALTER TABLE billing_invoice
+  ADD CONSTRAINT doctors_billing_invoice
+    FOREIGN KEY (doc_id) REFERENCES doctors (doc_id);
+
+ALTER TABLE billing_invoice
+  ADD CONSTRAINT patients_billing_invoice
+    FOREIGN KEY (patient_id) REFERENCES patients (patient_id);
